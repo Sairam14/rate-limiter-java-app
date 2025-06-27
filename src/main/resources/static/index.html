@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rate Limiter Admin UI</title>
+</head>
+<body>
+  <h1>Rate Limiter Status</h1>
+  <button onclick="loadStatus()">Refresh</button>
+  <pre id="status"></pre>
+  <script>
+    async function loadStatus() {
+      const token = prompt("Enter JWT token:");
+      const resp = await fetch('/admin/all-status', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (resp.ok) {
+        document.getElementById('status').textContent = JSON.stringify(await resp.json(), null, 2);
+      } else {
+        document.getElementById('status').textContent = 'Error: ' + resp.status;
+      }
+    }
+    loadStatus();
+  </script>
+</body>
+</html>
