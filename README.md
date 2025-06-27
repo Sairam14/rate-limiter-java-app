@@ -1,6 +1,6 @@
 # Rate Limiter API
 
-This project is a Go web application that demonstrates scalable, distributed rate limiting using both in-memory and Redis-backed algorithms. It supports token bucket and leaky bucket strategies, configurable per-user and per-API-key limits, and is designed for high concurrency and horizontal scalability. The app exposes HTTP endpoints for acquiring tokens, checking rate limit status, Prometheus metrics, and includes an admin UI for visualization. It is structured to separate concerns between the command line interface, service logic, and HTTP handlers, making it easy to extend and integrate into real-world API gateways or backend services.
+A scalable, distributed rate limiter service supporting both Token Bucket and Leaky Bucket algorithms, with Redis-backed persistence, JWT authentication, and an admin UI.
 
 ---
 
@@ -167,3 +167,41 @@ wrk -t12 -c400 -d30s -s <(echo 'wrk.method = "POST"') "http://localhost:8080/acq
 > **Note:**  
 > - Ensure the service and Redis are running before load/benchmark tests.
 > - Adjust `-n` (requests), `-c` (concurrency), and duration as needed for your testing environment.
+
+---
+
+## Prometheus Metrics
+
+This service exposes metrics in a Prometheus-compatible format using Spring Boot Actuator and Micrometer.
+
+### **How to View Metrics**
+
+- **URL:**  
+  [http://localhost:8080/actuator/prometheus](http://localhost:8080/actuator/prometheus)
+
+- **Description:**  
+  This endpoint provides all application, JVM, and custom rate limiter metrics in a format that Prometheus can scrape.
+
+### **Example Metrics Exposed**
+
+- `ratelimiter_acquire_success` — Number of successful acquire attempts
+- `ratelimiter_acquire_failed` — Number of failed acquire attempts (rate limited)
+- `ratelimiter_redis_latency_seconds` — Redis operation latency (histogram/timer)
+- `http_server_requests_seconds_count` — HTTP request rate
+- `jvm_threads_live` — Live JVM threads (analogous to goroutines in Go)
+
+### **Prometheus Scrape Configuration Example**
+
+Add this to your Prometheus config:
+```yaml
+scrape_configs:
+  - job_name: 'rate-limiter-api'
+    static_configs:
+      - targets: ['localhost:8080']
+```
+
+### **How to Use**
+
+1. Start your application.
+2. Visit [http://localhost:8080/actuator/prometheus](http://localhost:8080/actuator/prometheus) in your browser to see all metrics.
+3. Point your Prometheus server to this endpoint for automated scraping and monitoring.
