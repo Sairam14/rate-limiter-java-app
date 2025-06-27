@@ -1,6 +1,6 @@
 # Rate Limiter API
 
-A scalable, distributed rate limiter service supporting both Token Bucket and Leaky Bucket algorithms, with Redis-backed persistence, JWT authentication, and an admin UI.
+This project is a Go web application that demonstrates scalable, distributed rate limiting using both in-memory and Redis-backed algorithms. It supports token bucket and leaky bucket strategies, configurable per-user and per-API-key limits, and is designed for high concurrency and horizontal scalability. The app exposes HTTP endpoints for acquiring tokens, checking rate limit status, Prometheus metrics, and includes an admin UI for visualization. It is structured to separate concerns between the command line interface, service logic, and HTTP handlers, making it easy to extend and integrate into real-world API gateways or backend services.
 
 ---
 

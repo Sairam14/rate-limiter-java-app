@@ -170,6 +170,11 @@ public class RateLimiterService {
         return map;
     }
 
+    // Add this method
+    public Map<String, RateLimiterConfig> getConfigMap() {
+        return this.configMap;
+    }
+
     // In-memory fallback implementation
     boolean acquireInMemory(String key, RateLimiterConfig config, long now) {
         InMemoryBucket bucket = inMemoryBuckets.computeIfAbsent(key, k -> new InMemoryBucket(config, now));

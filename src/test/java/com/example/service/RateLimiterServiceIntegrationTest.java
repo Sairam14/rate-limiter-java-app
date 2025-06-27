@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RateLimiterServiceIntegrationTest {
 
-    @SuppressWarnings("resource")
     static GenericContainer<?> redis = new GenericContainer<>("redis:7.2.4").withExposedPorts(6379);
 
     @BeforeAll
